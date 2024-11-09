@@ -1,3 +1,4 @@
+# Canary of google chrome is built nightly, while this is build by commit.
 name: Build Canary
 
 on:
