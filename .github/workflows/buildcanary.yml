@@ -12,13 +12,14 @@ on:
   #     - '**'
     
 jobs:
+  # thanks https://stackoverflow.com/questions/63014786/how-to-schedule-a-github-actions-nightly-build-but-run-it-only-when-there-where
   check_date:
     runs-on: ubuntu-latest
     name: Check latest commit
     outputs:
       should_run: ${{ steps.should_run.outputs.should_run }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Print latest_commit
         run: echo ${{ github.sha }}
 
@@ -27,9 +28,9 @@ jobs:
         if: ${{ github.event_name == 'schedule' }}
         run: |
           if [ -z "$(git rev-list --after="24 hours ago" ${{ github.sha }})" ]; then
-            echo "::set-output name=should_run::false"
+            echo "should_run=false" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=should_run::true"
+            echo "should_run=true" >> $GITHUB_OUTPUT
           fi
   build:
     needs: check_date
