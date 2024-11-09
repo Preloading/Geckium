@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Versioning
       - name: Extract commit short sha
@@ -32,5 +32,5 @@ jobs:
             "update_channel": "canary",
             "branch": "${{ steps.extract_branch.outputs.branch }}"
           }' > Profile\ Folder/chrome/version.json
-      - name: Confirm Canary Version File
-        run: ls
+
+      # Actual building
