@@ -37,7 +37,7 @@ jobs:
         run: npm install -g sass
       # Actual building
       - name: Compile CSS from SCSS files
-        run: sass --watch Profile\ Folder/chrome:Profile\ Folder/chrome
+        run: sass --update Profile\ Folder/chrome:Profile\ Folder/chrome
 
       - name: See if we actually compiled the CSS
         run: ls -la Profile\ Folder/chrome
