@@ -1,9 +1,9 @@
 name: Build Canary
 
 on:
-  push: {
-    branches: [canary-builds]
-  }
+  push:
+    branches:
+      - '**'
     
 jobs:
   build:
