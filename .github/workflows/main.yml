@@ -35,9 +35,7 @@ jobs:
 
       # Actual building
       - name: Compile CSS from SCSS files
-        uses: gha-utilities/sass-build@v0.6.0
-        with:
-          source: Profile Folder/chrome
-          destination: Profile Folder/chrome
+        run: sass --watch Profile\ Folder/chrome:Profile\ Folder/chrome
+        
       - name: See if we actually compiled the CSS
         run: ls -la Profile\ Folder/chrome
