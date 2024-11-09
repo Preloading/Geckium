@@ -38,6 +38,10 @@ jobs:
       # Actual building
       - name: Compile CSS from SCSS files
         run: sass --update Profile\ Folder/chrome:Profile\ Folder/chrome
-
-      - name: See if we actually compiled the CSS
-        run: ls -la Profile\ Folder/chrome
+      - name: Cleanup the build output
+        run: rm -rf .github .gitignore 
+      - name: Archive the build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: .
