@@ -41,7 +41,7 @@ jobs:
       - name: Cleanup the build output
         run: rm -rf .github .gitignore 
       - name: Archive the build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: .
