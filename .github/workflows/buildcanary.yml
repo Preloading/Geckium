@@ -1,11 +1,15 @@
-# Canary of google chrome is built nightly, while this is build by commit.
 name: Build Canary
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    # - cron: "0 0 * * *" # Every day at 00:00 UTC
+    - cron: "*/5 * * * *" # Every 5 minutes for testing
   workflow_dispatch:
   workflow_call:
+  # also for testing
+  # push:
+  #   branches:
+  #     - '**'
     
 jobs:
   check_date:
