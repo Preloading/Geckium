@@ -1,0 +1,36 @@
+name: Build Canary
+
+on:
+  push:
+    branches:
+      - '**'
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get Canary Version
+        id: vars
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+
+      - name: Confirm git commit SHA output
+        run: echo ${{ env.COMMIT_SHORT_SHA }}
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Create Canary Version File
+        run: |
+          rm -f Profile\ Folder/chrome/version.json
+          echo '{
+            "version": "${{ env.COMMIT_SHORT_SHA }}",
+            "update_channel": "canary",
+            "branch": "${{ steps.extract_branch.outputs.branch }}"
+          }' > Profile\ Folder/chrome/version.json
+      - name: Confirm Canary Version File
+        run: cat Profile\ Folder/chrome/version.json
