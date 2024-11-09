@@ -2,8 +2,8 @@ name: Build Canary
 
 on:
   schedule:
-    # - cron: "0 0 * * *" # Every day at 00:00 UTC
-    - cron: "*/5 * * * *" # Every 1 minutes for testing
+    - cron: "0 0 * * *" # Every day at 00:00 UTC
+    #- cron: "*/5 * * * *" # Every 5 minutes for testing
   workflow_dispatch:
   workflow_call:
   # also for testing
@@ -13,6 +13,7 @@ on:
     
 jobs:
   # thanks https://stackoverflow.com/questions/63014786/how-to-schedule-a-github-actions-nightly-build-but-run-it-only-when-there-where
+  # Makes it so we don't build if there are no new commits in the last 24 hours. This gets overwritten if the workflow is triggered manually.
   check_date:
     runs-on: ubuntu-latest
     name: Check latest commit
@@ -66,8 +67,10 @@ jobs:
       # Actual building
       - name: Compile CSS from SCSS files
         run: sass --update Profile\ Folder/chrome:Profile\ Folder/chrome
+        # Some cleanup of files that aren't featured in actual geckium builds
       - name: Cleanup the build output
         run: rm -rf .github .gitignore 
+        # Zip it, and send it off!
       - name: Archive the build
         uses: actions/upload-artifact@v4
         with:
